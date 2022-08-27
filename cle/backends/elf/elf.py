@@ -296,13 +296,13 @@ class ELF(MetaELF):
             assert False # assumption that `reader['e_machine'] returns `str` or `int` is violated
 
         if 'ARM' in arch_str:
-        # Check the ARM attributes, if they exist
-        arm_attrs = ELF._extract_arm_attrs(reader)
-        if arm_attrs and 'TAG_CPU_NAME' in arm_attrs:
-            if arm_attrs['TAG_CPU_NAME'].endswith("-M") \
-                or arm_attrs['TAG_CPU_NAME'].endswith("-M.MAIN") \
-                or 'Cortex-M' in arm_attrs['TAG_CPU_NAME']:
-                return archinfo.ArchARMCortexM('Iend_LE')
+            # Check the ARM attributes, if they exist
+            arm_attrs = ELF._extract_arm_attrs(reader)
+            if arm_attrs and 'TAG_CPU_NAME' in arm_attrs:
+                if arm_attrs['TAG_CPU_NAME'].endswith("-M") \
+                    or arm_attrs['TAG_CPU_NAME'].endswith("-M.MAIN") \
+                    or 'Cortex-M' in arm_attrs['TAG_CPU_NAME']:
+                    return archinfo.ArchARMCortexM('Iend_LE')
             if reader.header.e_flags & 0x200:
                 return archinfo.ArchARMEL('Iend_LE' if reader.little_endian else 'Iend_BE')
             elif reader.header.e_flags & 0x400:
